@@ -1,0 +1,21 @@
+{
+  "name": "ecosymphony",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Екосимфонія — жива екосистема, яку вирощують звуком",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "e2e": "node scripts/e2e.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "1.63.0",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.4"
+  }
+}

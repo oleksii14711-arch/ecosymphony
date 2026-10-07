@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>ЕКОСИМФОНІЯ — жива екосистема зі звуку</title>
+  <meta name="description" content="Жива екосистема, яку ви вирощуєте звуком. Кореневики, світляки, іскри." />
+  <link rel="stylesheet" href="./src/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand"><span class="brand-dot"></span>ЕКОСИМФОНІЯ</div>
+      <div class="counts" aria-live="polite">
+        <span class="pill root">● <b id="statRoot">0</b></span>
+        <span class="pill fly">● <b id="statFly">0</b></span>
+        <span class="pill spark">● <b id="statSpark">0</b></span>
+        <span class="pill time">⏱ <b id="statTime">0:00</b></span>
+      </div>
+      <div class="top-actions">
+        <label class="vol">🔊 <input id="vol" type="range" min="0" max="100" value="60" aria-label="Гучність" /></label>
+        <button id="btnSound" class="btn small" title="Вимкнути / увімкнути звук">🔇</button>
+        <button id="btnEco" class="btn small" title="Режим економії">🍃</button>
+        <button id="btnPanel" class="btn small" title="Панель світу">☰</button>
+      </div>
+    </header>
+
+    <main class="stage">
+      <div id="singleWrap" class="canvas-wrap">
+        <canvas id="cv"></canvas>
+        <div id="hintBar" class="hints">
+          <span>Низькі звуки живлять коріння</span><i>·</i>
+          <span>Середні — ведуть світляків</span><i>·</i>
+          <span>Різкий удар пробуджує іскри</span>
+        </div>
+        <div id="emptyNote" class="empty hidden"></div>
+      </div>
+      <div id="splitWrap" class="split hidden">
+        <div class="split-col">
+          <div class="split-head"><b>Доля А</b><span class="tag">без змін</span>
+            <button id="listenA" class="btn small on">🔊 чути</button>
+          </div>
+          <canvas id="cvA"></canvas>
+          <div id="statA" class="split-stat"></div>
+        </div>
+        <div class="split-col">
+          <div class="split-head"><b>Доля Б</b><span id="intTag" class="tag">втручання</span>
+            <button id="listenB" class="btn small">🔊 чути</button>
+          </div>
+          <canvas id="cvB"></canvas>
+          <div id="statB" class="split-stat"></div>
+        </div>
+        <div id="compareBar" class="compare"></div>
+      </div>
+    </main>
+
+    <footer class="toolbar" aria-label="Інструменти">
+      <div class="tool-group" role="group" aria-label="Інструменти впливу">
+        <button id="toolFood" class="btn tool" title="Залишити енергетичну пляму">🍯 Їжа</button>
+        <button id="toolCurrent" class="btn tool" title="Рухом вказівника створити потік">🌊 Течія</button>
+        <button id="toolShelter" class="btn tool" title="Тимчасова захищена зона">🛟 Притулок</button>
+      </div>
+      <div class="tool-group">
+        <button id="btnSplit" class="btn accent" title="Розділити світ на дві долі">⑂ Розділити долю</button>
+        <button id="btnUnsplit" class="btn small hidden" title="Повернутися до одного світу">← Один світ</button>
+      </div>
+      <div class="tool-group">
+        <button id="btnSeed" class="btn small" title="Насіння світу">🌱</button>
+        <button id="btnShot" class="btn small" title="Знімок PNG">📷</button>
+        <button id="btnSaveLocal" class="btn small" title="Зберегти у браузері">💾</button>
+        <button id="btnLoadLocal" class="btn small" title="Відновити зі збереження">📂</button>
+        <button id="btnExport" class="btn small" title="Експорт JSON">⬆</button>
+        <button id="btnImport" class="btn small" title="Імпорт JSON">⬇</button>
+      </div>
+      <input id="fileWorld" type="file" accept="application/json,.json" class="hidden" />
+      <input id="audioFile" type="file" accept="audio/*,.mp3,.wav,.ogg,.m4a,.flac,.webm" class="hidden" />
+    </footer>
+
+    <aside id="panel" class="panel">
+      <div class="panel-sec">
+        <h3>Стан світу</h3>
+        <div id="detailStats" class="detail">…</div>
+        <div class="row">
+          <span>Насіння: <code id="seedCode">…</code></span>
+          <button id="btnCopySeed" class="btn small">Копіювати</button>
+        </div>
+        <p class="fine">Насіння відтворює лише початкові умови. Подальші ваші дії, течії та аудіо в ньому не зберігаються.</p>
+        <div class="row">
+          <input id="seedInput" placeholder="ECO-XXXXXX-X" aria-label="Ввести насіння" />
+          <button id="btnApplySeed" class="btn small">Застосувати</button>
+        </div>
+      </div>
+      <div class="panel-sec">
+        <h3>Довідка: правила звуку</h3>
+        <ul class="help">
+          <li><b>Низькі частоти</b> → їжа для кореневиків, вони гудуть басом.</li>
+          <li><b>Середні частоти</b> → ведуть світляків, ті дзвенять мелодією.</li>
+          <li><b>Високі + різкі атаки</b> → будять іскри, ті дають перкусію.</li>
+          <li><b>Тиша</b> — стан спокою: витрати менші, частина істот дрімає. Коротка пауза не вбиває світ; за повного зникнення виду повертаються спори.</li>
+          <li><b>Їжа / Течія / Притулок</b> — ваші руки всередині світу.</li>
+        </ul>
+      </div>
+      <div class="panel-sec">
+        <h3>Журнал подій</h3>
+        <div id="journal" class="journal"><span class="fine">Поки тихо…</span></div>
+      </div>
+      <div class="panel-sec">
+        <h3>Збереження</h3>
+        <div id="saveStatus" class="fine">Автозбереження вимкнене — зберігайте вручну.</div>
+      </div>
+    </aside>
+
+    <div id="overlay" class="overlay">
+      <div class="card">
+        <div class="kicker">інтерактивний експонат</div>
+        <h1>ЕКОСИМФОНІЯ</h1>
+        <p class="sub">Живий сад під склом. Один ваш звук може стати початком нового виду. Світ уже дихає в деморежимі — оживіть його своїм звуком.</p>
+        <button id="btnWake" class="btn big">✦ Оживити світ</button>
+        <div id="choiceRow" class="choices hidden">
+          <button id="btnDemo" class="btn choice">▶ Демонстрація</button>
+          <button id="btnMic" class="btn choice">🎤 Мікрофон</button>
+          <button id="btnFile" class="btn choice">♫ Мій аудіофайл</button>
+        </div>
+        <div id="ovStatus" class="ov-status">Натисніть «Оживити світ» — звук увімкнеться лише після вашої дії.</div>
+        <div class="mini-hints">
+          <span>Низькі звуки живлять коріння</span>
+          <span>Різкий удар пробуджує іскри</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="splitModal" class="modal hidden">
+      <div class="card">
+        <h2>Розділити долю</h2>
+        <p>Світ скопіюється в дві незалежні долі з однаковим початком. Доля А житиме як досі. Для долі Б оберіть одне втручання:</p>
+        <label class="radio"><input type="radio" name="interv" value="food" checked /> Більше їжі — додаткові плями та повільніше виснаження</label>
+        <label class="radio"><input type="radio" name="interv" value="silence" /> Тривала тиша — вхідний звук приглушується вчетверо</label>
+        <label class="radio"><input type="radio" name="interv" value="current" /> Сильніша течія — ваші потоки в 1.6 раза потужніші</label>
+        <div class="row end">
+          <button id="btnCancelSplit" class="btn small">Скасувати</button>
+          <button id="btnDoSplit" class="btn accent">Розділити</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+  </div>
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>
